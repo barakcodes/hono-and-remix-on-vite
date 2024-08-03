@@ -9,3 +9,6 @@ node_modules
 package-lock.json
 bun.lockb
 dist
+
+# sst
+.sst
