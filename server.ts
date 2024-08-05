@@ -2,7 +2,7 @@ import {   createCookieSessionStorage } from '@remix-run/node'
 import type {AppLoadContext, ServerBuild} from '@remix-run/node'
 import { Hono } from 'hono/quick'
 import { remix } from 'remix-hono/handler'
-import { getSession, getSessionStorage, sessions } from 'helpers/session'
+import { getSession, getSessionStorage, sessions } from './helpers/session'
 const app = new Hono()
 const mode =
   process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV

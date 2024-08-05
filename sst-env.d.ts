@@ -3,21 +3,8 @@
 import "sst"
 declare module "sst" {
   export interface Resource {
-    "Assets": {
-      "type": "sst.aws.StaticAssets"
-      "url": string
-    }
-    "AssetsBucket": {
-      "name": string
-      "type": "sst.aws.Bucket"
-    }
-    "MyRouter": {
-      "type": "sst.aws.Router"
-      "url": string
-    }
-    "Web": {
-      "name": string
-      "type": "sst.aws.Function"
+    "MyWeb": {
+      "type": "sst.aws.Remix"
       "url": string
     }
   }

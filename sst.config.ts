@@ -1,49 +1,35 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="./.sst/platform/config.d.ts" />
+
+let stage: string | undefined
 
 export default $config({
   app(input) {
+    stage = input?.stage
     return {
-      name: 'obira',
+      name: 'other',
       removal: input?.stage === 'production' ? 'retain' : 'remove',
       home: 'aws',
     }
   },
   async run() {
-    const server = new sst.aws.Function('Web', {
-      url: true,
-      streaming: true,
-      handler: 'functions/server.handler',
+    new sst.aws.Remix('MyWeb', {
       environment: {
-         NODE_ENV: 'production',
+        NODE_ENV: (stage!=='production'&& stage!=='development') ? 'development' : 'production',
       },
-      nodejs: {
-        esbuild: {
-          external:['virtual:remix/server-build'],
-        }
-      }
+      buildCommand: 'bun run build',
+      transform: {
+        server: {
+          handler: 'functions/server.handler',
+          nodejs: {
+            esbuild: {
+               external:['virtual:remix/server-build'],
+               loader: {
+                '.node': 'file',
+              },
+            },
+          },
+        },
+      },
     })
-
-    const assets = new sst.aws.StaticAssets('Assets', { 
-      build: {
-        command: 'bun run build',
-        output: 'build/client',
-      }
-    })
-    
-    const router = new sst.aws.Router('MyRouter', {
-     routes: {
-        '/*': server.url,
-        '/assets/*': assets.url,
-        '/favicon.ico': assets.url,
-        '/_routes.json': assets.url,
-      }
-     }) 
-
-   return {
-     server: server.url,
-     assets: assets.url,
-     router: router.url,
-    }
   },
 })
