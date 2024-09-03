@@ -4,11 +4,8 @@ import { Hono } from 'hono/quick'
 import { remix } from 'remix-hono/handler'
 import { getSession, getSessionStorage, sessions } from './helpers/session'
 const app = new Hono()
-const mode =
-  process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV
+const mode = process.env.NODE_ENV
 const isProduction = mode === 'production'
-
-console.log('NODE_ENV', process.env.NODE_ENV)
 
 app.use(
   sessions([
