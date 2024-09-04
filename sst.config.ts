@@ -14,7 +14,8 @@ export default $config({
       },
       transform: {
         server: {
-          handler: 'functions/server.handler',
+          // name must be index for now(issue with sst)
+          handler: 'functions/index.handler',
           nodejs: {
             esbuild: {
                external:['virtual:remix/server-build'],
